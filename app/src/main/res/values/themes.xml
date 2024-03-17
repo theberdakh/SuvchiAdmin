@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SuvchiAdmin" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnSurfaceVariant">@color/colorPrimary</item>
+        <item name="textInputOutlinedStyle">@style/RoundedTextInputLayout</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Theme.SuvchiAdmin" parent="Base.Theme.SuvchiAdmin" />
+</resources>

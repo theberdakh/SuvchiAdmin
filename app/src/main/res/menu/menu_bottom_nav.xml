@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_bottom_dashboard"
+        android:icon="@drawable/round_dashboard_24"
+        android:title="@string/dashboard"/>
+    <item android:id="@+id/action_bottom_contracts"
+        android:icon="@drawable/round_file_24"
+        android:title="@string/contracts"/>
+    <item android:id="@+id/action_bottom_account"
+        android:icon="@drawable/round_account_circle_24"
+        android:title="@string/account_settings"/>
+</menu>
