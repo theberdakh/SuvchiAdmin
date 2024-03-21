@@ -1,7 +1,6 @@
-package com.theberdakh.suvchiadmin.ui.dashboard.adapter
+package com.theberdakh.suvchiadmin.ui.all_regions.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil

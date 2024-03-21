@@ -5,6 +5,8 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresExtension
@@ -17,12 +19,12 @@ import com.theberdakh.suvchiadmin.data.remote.auth.models.LoginRequest
 import com.theberdakh.suvchiadmin.data.remote.auth.models.LoginResponse
 import com.theberdakh.suvchiadmin.databinding.FragmentMainBinding
 import com.theberdakh.suvchiadmin.presentation.AuthViewModel
-import com.theberdakh.suvchiadmin.ui.contracts.ContractsFragment
-import com.theberdakh.suvchiadmin.ui.dashboard.DashboardFragment
+import com.theberdakh.suvchiadmin.ui.add_sensor.AddSensorFragment
+import com.theberdakh.suvchiadmin.ui.all_regions.AllRegionsFragment
+import com.theberdakh.suvchiadmin.ui.sensors.AllSensorsFragment
 import com.theberdakh.suvchiadmin.ui.settings.SettingsFragment
-import com.theberdakh.suvchiadmin.utils.TokenInterceptor
+import com.theberdakh.suvchiadmin.utils.addFragmentToBackStack
 import com.theberdakh.suvchiadmin.utils.replaceFragment
-import com.theberdakh.suvchiadmin.utils.showToast
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -35,10 +37,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 const val TAG = "MainFragment"
+
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val authViewModel by viewModel<AuthViewModel>()
     private val binding get() = checkNotNull(_binding)
+    private var allSensorsMenu: Menu? = null
+
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override fun onCreateView(
@@ -60,14 +65,35 @@ class MainFragment : Fragment() {
         replaceFragment(
             childFragmentManager,
             R.id.nested_fragment_container,
-            DashboardFragment()
+            AllRegionsFragment()
         )
+
+        binding.toolbar.setOnMenuItemClickListener {menuItem ->
+            if (menuItem.itemId == R.id.action_top_add_new_sensor){
+               addFragmentToBackStack(requireActivity().supportFragmentManager, R.id.fragment_parent_container, AddSensorFragment())
+            }
+            true
+        }
+
 
         binding.bottomNavView.setOnItemSelectedListener { menuItem ->
             val nestedFragment = when (menuItem.itemId) {
-                R.id.action_bottom_dashboard -> DashboardFragment()
-                R.id.action_bottom_contracts -> ContractsFragment()
-                R.id.action_bottom_account -> SettingsFragment()
+                R.id.action_bottom_dashboard -> {
+                    binding.toolbar.menu.clear()
+                    AllRegionsFragment()
+                }
+
+                R.id.action_bottom_sensors -> {
+                    binding.toolbar.menu.clear()
+                    binding.toolbar.inflateMenu(R.menu.menu_all_sensors)
+                    AllSensorsFragment()
+                }
+
+                R.id.action_bottom_account -> {
+                    binding.toolbar.menu.clear()
+                    SettingsFragment()
+                }
+
                 else -> throw Exception("Not found nested fragment")
             }
 
@@ -79,25 +105,36 @@ class MainFragment : Fragment() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        requireActivity().menuInflater.inflate(R.menu.menu_all_sensors, menu)
+        allSensorsMenu = menu
+        super.onCreateOptionsMenu(menu, inflater)
+
+    }
+
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     private fun initObservers() {
         //Manual handling of refresh token when access token revokes
         lifecycleScope.launch {
-          val response =  try {
-              RetrofitInstance.api.login(LoginRequest(SharedPreferences().username, SharedPreferences().password))
-          } catch (e: IOException){
-              showToast("Internet baylanısıńızdı tekseriń")
-              Log.d(TAG, "IOException (check internet)")
-              return@launch
-          } catch (e: HttpException){
-              Log.d(TAG, "HttpException")
-              return@launch
-          }
-            if (response.isSuccessful && response.body() != null){
+            val response = try {
+                RetrofitInstance.api.login(
+                    LoginRequest(
+                        SharedPreferences().username,
+                        SharedPreferences().password
+                    )
+                )
+            } catch (e: IOException) {
+                Log.d(TAG, "IOException (check internet)")
+                return@launch
+            } catch (e: HttpException) {
+                Log.d(TAG, "HttpException")
+                return@launch
+            }
+            if (response.isSuccessful && response.body() != null) {
                 Log.d(TAG, "Refresh Token: ${response.body()!!.refreshToken}")
                 refreshTokens(response.body()!!)
-            } else{
-                showToast("Maǵlıwmatlardı alıwıńız ushın qayta login isleń")
+            } else {
+                Log.d(TAG, "Maǵlıwmatlardı alıwıńız ushın qayta login isleń")
             }
 
         }
@@ -128,7 +165,7 @@ class MainFragment : Fragment() {
                 val request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer ${SharedPreferences().refreshToken}")
                     .build()
-             chain.proceed(request)
+                chain.proceed(request)
             }
             .build()
 

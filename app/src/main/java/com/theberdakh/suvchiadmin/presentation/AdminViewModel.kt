@@ -1,7 +1,5 @@
 package com.theberdakh.suvchiadmin.presentation
 
-import android.graphics.pdf.PdfDocument.Page
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -16,14 +14,15 @@ import com.theberdakh.suvchiadmin.data.remote.contract.models.UploadFileResponse
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.CreateFarmerRequestBody
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
 import com.theberdakh.suvchiadmin.data.remote.regions.models.Region
+import com.theberdakh.suvchiadmin.data.remote.sensors.models.CreateSensorRequestBody
+import com.theberdakh.suvchiadmin.data.remote.sensors.models.CreateSensorResponse
 import com.theberdakh.suvchiadmin.domain.AdminRepository
 import com.theberdakh.suvchiadmin.ui.contracts.ContractsPagingSource
-import com.theberdakh.suvchiadmin.ui.dashboard.RegionsPagingSource
+import com.theberdakh.suvchiadmin.ui.all_regions.RegionsPagingSource
 import com.theberdakh.suvchiadmin.ui.farmers.FarmersPagingSource
 import com.theberdakh.suvchiadmin.ui.sensors.SensorsPagingSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import okhttp3.MultipartBody
@@ -46,6 +45,10 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
     val responseCreateContractMessage = MutableSharedFlow<String>()
     val responseCreateContractError = MutableSharedFlow<Throwable>()
 
+    val responseCreateSensorSuccess = MutableSharedFlow<CreateSensorResponse>()
+    val responseCreateSensorMessage = MutableSharedFlow<String>()
+    val responseCreateSensorError = MutableSharedFlow<Throwable>()
+
 
     val regions = Pager(
         PagingConfig(pageSize = 1)
@@ -66,6 +69,7 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
     }.flow.cachedIn(viewModelScope)
 
 
+
     suspend fun createFarmer(
         farmerRequestBody: CreateFarmerRequestBody
     ) {
@@ -79,6 +83,22 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
                 }
                 is ResultData.Error -> {
                     responseCreateFarmerError.emit(it.error)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    suspend fun createSensor(name: String, imei: String){
+        repository.createSensor(CreateSensorRequestBody(name = name, imei = imei)).onEach {
+            when (it) {
+                is ResultData.Success -> {
+                    responseCreateSensorSuccess.emit(it.data)
+                }
+                is ResultData.Message -> {
+                    responseCreateSensorMessage.emit(it.message)
+                }
+                is ResultData.Error -> {
+                    responseCreateSensorError.emit(it.error)
                 }
             }
         }.launchIn(viewModelScope)
@@ -103,8 +123,9 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
         }.launchIn(viewModelScope)
     }
 
-    suspend fun createContract(title: String, fileId: Int) {
-        val createContractRequestBody = CreateContractRequestBody(title, fileId)
+    suspend fun createContract(title: String, fileId: Int, userId: Int) {
+        val userIds = listOf(userId)
+        val createContractRequestBody = CreateContractRequestBody(title, fileId, userId = userIds)
         repository.createContract(createContractRequestBody).onEach {
             when(it){
                 is ResultData.Success -> responseCreateContractSuccess.emit(it.data)

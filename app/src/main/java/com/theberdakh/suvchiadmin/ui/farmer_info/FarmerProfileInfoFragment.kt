@@ -1,4 +1,4 @@
-package com.theberdakh.suvchiadmin.ui.farmer_profile.info
+package com.theberdakh.suvchiadmin.ui.farmer_info
 
 import android.os.Bundle
 import android.view.LayoutInflater

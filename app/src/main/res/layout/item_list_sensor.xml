@@ -36,7 +36,7 @@
                     android:layout_height="35dp"
                     app:shapeAppearanceOverlay="?shapeAppearanceCornerLarge"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/round_file_24" />
+                    android:src="@drawable/round_sensors_24" />
 
 
             </FrameLayout>

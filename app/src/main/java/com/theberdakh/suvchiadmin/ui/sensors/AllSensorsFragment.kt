@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.Sensor
 import com.theberdakh.suvchiadmin.databinding.FragmentAllSensorsBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
@@ -29,11 +31,17 @@ class AllSensorsFragment : Fragment(), SensorsPagingAdapter.SensorClickEvent {
         _binding = FragmentAllSensorsBinding.inflate(inflater, container, false)
 
         initViews()
-        showToast("inited")
         initObservers()
+        initListeners()
 
 
         return binding.root
+    }
+
+    private fun initListeners() {
+        binding.swipeRefreshAllSensors.setOnRefreshListener {
+            initObservers()
+        }
     }
 
     private fun initObservers() {
@@ -43,9 +51,17 @@ class AllSensorsFragment : Fragment(), SensorsPagingAdapter.SensorClickEvent {
             }
         }
 
+        lifecycleScope.launch {
+            allSensorsAdapter.loadStateFlow.collect{
+                val state = it.refresh
+                binding.swipeRefreshAllSensors.isRefreshing = state is LoadState.Loading
+            }
+        }
+
     }
 
     private fun initViews() {
+        binding.swipeRefreshAllSensors.setColorSchemeColors(resources.getColor(R.color.colorPrimary))
         binding.recyclerAllSensors.adapter = allSensorsAdapter
     }
 

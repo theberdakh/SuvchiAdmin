@@ -45,4 +45,10 @@
     <string name="helper_add_contract_file">*Qabıllanatuǵın fayl formatları: \nFoto: PNG/JPEG/JPG \nHújjet: PDF, DOCX, XLSX</string>
     <string name="file_has_not_uploaded">Fayl júklenbedi</string>
     <string name="profile_farmer">Fermer profili</string>
+    <string name="error_you_are_not_admin">Siz admin emessiz</string>
+    <string name="contract_successfully_created">%1$s atlı kontrakt jaratıldı</string>
+    <string name="imei">IMEI</string>
+    <string name="devices">Úskeneler</string>
+    <string name="sensor_settings">Úskene sazlawları</string>
+    <string name="helper_imei">15 cifrdan ibarat úskene mánzili</string>
 </resources>

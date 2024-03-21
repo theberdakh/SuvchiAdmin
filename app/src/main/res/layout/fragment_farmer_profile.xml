@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:menu="@menu/menu_profile"
             app:navigationIcon="@drawable/round_left_24"
             app:navigationIconTint="@color/white"
             app:title="@string/profile_farmer"
@@ -28,6 +27,8 @@
         <com.google.android.material.tabs.TabLayout
             android:background="@color/colorPrimary"
             app:tabTextColor="@color/white"
+            app:tabInlineLabel="true"
+            app:tabMode="auto"
             app:tabIndicatorColor="@color/white"
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.theberdakh.suvchiadmin.ui.dashboard
+package com.theberdakh.suvchiadmin.ui.all_regions
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

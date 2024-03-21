@@ -1,27 +1,24 @@
-package com.theberdakh.suvchiadmin.ui.dashboard
+package com.theberdakh.suvchiadmin.ui.all_regions
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.regions.models.Region
-import com.theberdakh.suvchiadmin.databinding.FragmentDashboardBinding
+import com.theberdakh.suvchiadmin.databinding.FragmentAllRegionsBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
-import com.theberdakh.suvchiadmin.ui.dashboard.adapter.RegionsAdapter
+import com.theberdakh.suvchiadmin.ui.all_regions.adapter.RegionsAdapter
 import com.theberdakh.suvchiadmin.ui.farmers.AllFarmersFragment
 import com.theberdakh.suvchiadmin.utils.addFragmentToBackStack
-import com.theberdakh.suvchiadmin.utils.replaceFragment
-import com.theberdakh.suvchiadmin.utils.showToast
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DashboardFragment: Fragment(), RegionsAdapter.RegionClickEvent {
-    private var _binding: FragmentDashboardBinding? =null
+class AllRegionsFragment: Fragment(), RegionsAdapter.RegionClickEvent {
+    private var _binding: FragmentAllRegionsBinding? =null
     private val binding get() = checkNotNull(_binding)
     private val adminViewModel by viewModel<AdminViewModel>()
     private val regionsAdapter = RegionsAdapter(this)
@@ -32,7 +29,7 @@ class DashboardFragment: Fragment(), RegionsAdapter.RegionClickEvent {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentAllRegionsBinding.inflate(inflater, container, false)
 
 
         initObservers()

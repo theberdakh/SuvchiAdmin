@@ -3,10 +3,14 @@
     <item android:id="@+id/action_bottom_dashboard"
         android:icon="@drawable/round_dashboard_24"
         android:title="@string/dashboard"/>
-    <item android:id="@+id/action_bottom_contracts"
-        android:icon="@drawable/round_file_24"
-        android:title="@string/contracts"/>
+    <item android:id="@+id/action_bottom_sensors"
+        android:icon="@drawable/round_sensors_24"
+        android:title="@string/devices"/>
     <item android:id="@+id/action_bottom_account"
         android:icon="@drawable/round_account_circle_24"
         android:title="@string/account_settings"/>
+    <item android:id="@+id/action_bottom_contracts"
+        android:icon="@drawable/round_file_24"
+        android:visible="false"
+        android:title="@string/contracts"/>
 </menu>

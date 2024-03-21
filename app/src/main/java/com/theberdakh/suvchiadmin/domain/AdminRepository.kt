@@ -7,6 +7,7 @@ import com.theberdakh.suvchiadmin.data.remote.farmers.FarmersApi
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.CreateFarmerRequestBody
 import com.theberdakh.suvchiadmin.data.remote.regions.RegionsApi
 import com.theberdakh.suvchiadmin.data.remote.sensors.SensorsApi
+import com.theberdakh.suvchiadmin.data.remote.sensors.models.CreateSensorRequestBody
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -85,6 +86,17 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
 
     suspend fun getAllSensors()  = flow {
         val response = sensorsApi.getAllSensors()
+        if (response.isSuccessful){
+            emit(ResultData.Success(checkNotNull(response.body())))
+        } else {
+            emit(ResultData.Message(response.code().toString()))
+        }
+    }.catch {
+        emit(ResultData.Error(it))
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun createSensor(createSensorRequestBody: CreateSensorRequestBody) = flow {
+        val response = sensorsApi.createSensor(createSensorRequestBody)
         if (response.isSuccessful){
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {

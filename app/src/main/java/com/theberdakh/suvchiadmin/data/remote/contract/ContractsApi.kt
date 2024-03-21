@@ -24,4 +24,7 @@ interface ContractsApi {
 
     @POST("/admin/contract")
     suspend fun createContract(@Body createContractBody: CreateContractRequestBody): Response<CreateContractResponse>
+
+    @GET("admin/contract/voited/?sort[contractUser.id]=DESC")
+    suspend fun getAllContractsByFarmerid()
 }

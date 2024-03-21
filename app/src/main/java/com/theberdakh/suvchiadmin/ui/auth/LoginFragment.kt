@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.log
 
-class LoginFragment: Fragment() {
+class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = checkNotNull(_binding)
     private val authViewModel by viewModel<AuthViewModel>()
@@ -42,14 +42,17 @@ class LoginFragment: Fragment() {
         initObservers()
 
 
-
         return binding.root
     }
 
     private fun initObservers() {
-        authViewModel.responseLoginIsSuccessful.onEach {loginResponse ->
-            saveLoginResponse(loginResponse)
-            requestUserProfile()
+        authViewModel.responseLoginIsSuccessful.onEach { loginResponse ->
+            if (loginResponse.role == LoginResponse.ROLE_ADMIN) {
+                saveLoginResponse(loginResponse)
+                requestUserProfile()
+            } else {
+                showToast(getString(R.string.error_you_are_not_admin))
+            }
         }.launchIn(lifecycleScope)
 
         authViewModel.responseLoginIsMessage.onEach {
@@ -60,9 +63,10 @@ class LoginFragment: Fragment() {
             it.printStackTrace()
         }.launchIn(lifecycleScope)
 
-        authViewModel.responseProfileIsSuccess.onEach {userProfile ->
+        authViewModel.responseProfileIsSuccess.onEach { userProfile ->
             savePassword()
-        saveUserProfile(userProfile)
+            saveUserProfile(userProfile)
+            navigateToMainFragment()
         }.launchIn(lifecycleScope)
 
         authViewModel.responseProfileIsMessage.onEach {
@@ -75,31 +79,29 @@ class LoginFragment: Fragment() {
     }
 
 
-
     private fun savePassword() {
         SharedPreferences().password = binding.passwordEditText.getString()
     }
 
     private fun saveUserProfile(userProfile: UserProfile) {
-       userProfile.apply {
-           SharedPreferences().firstName = firstName
-           SharedPreferences().lastName = lastName
-           SharedPreferences().middleName = middleName
-           SharedPreferences().phone = phone
-           SharedPreferences().avatar = avatar
-           SharedPreferences().username = username
-           SharedPreferences().latitude = latitude
-           SharedPreferences().longitude = longitude
-           SharedPreferences().passport = passport
-       }
-
-        navigateToMainFragment()
+        userProfile.apply {
+            SharedPreferences().firstName = firstName
+            SharedPreferences().lastName = lastName
+            SharedPreferences().middleName = middleName
+            SharedPreferences().phone = phone
+            SharedPreferences().avatar = avatar
+            SharedPreferences().username = username
+            SharedPreferences().latitude = latitude
+            SharedPreferences().longitude = longitude
+            SharedPreferences().passport = passport
+        }
     }
 
     private fun navigateToMainFragment() {
-        if (SharedPreferences().role == "admin"){
+        if (SharedPreferences().role == "admin") {
             SharedPreferences().isLoggedIn = true
-            val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_parent_container) as NavHostFragment
+            val navHostFragment =
+                requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_parent_container) as NavHostFragment
             val inflater = navHostFragment.navController.navInflater
             val graph = inflater.inflate(R.navigation.parent_nav)
 
@@ -126,8 +128,11 @@ class LoginFragment: Fragment() {
 
     private fun initListeners() {
         binding.loginButton.setOnClickListener {
-            if (binding.usernameEditText.isNotEmptyOrBlank() && binding.passwordEditText.isNotEmptyOrBlank()){
-                login(username = binding.usernameEditText.getString(), password = binding.passwordEditText.getString())
+            if (binding.usernameEditText.isNotEmptyOrBlank() && binding.passwordEditText.isNotEmptyOrBlank()) {
+                login(
+                    username = binding.usernameEditText.getString(),
+                    password = binding.passwordEditText.getString()
+                )
             }
         }
     }
@@ -141,11 +146,10 @@ class LoginFragment: Fragment() {
         lifecycleScope.launch {
             authViewModel.login(
                 username = username,
-                password= password
+                password = password
             )
         }
     }
-
 
 
     override fun onDestroyView() {

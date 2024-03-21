@@ -10,6 +10,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.theberdakh.suvchiadmin.R
+import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
 import com.theberdakh.suvchiadmin.databinding.FragmentAddContractBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.utils.getFileName
@@ -29,7 +30,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
 
-class AddContractFragment: Fragment() {
+class AddContractFragment(val farmer: Farmer): Fragment() {
     private var _binding: FragmentAddContractBinding? = null
     private val binding get() = checkNotNull(_binding)
     private val adminViewModel by viewModel<AdminViewModel>()
@@ -50,6 +51,19 @@ class AddContractFragment: Fragment() {
     }
 
     private fun initObservers() {
+
+        adminViewModel.responseCreateContractSuccess.onEach {
+            showToast(getString(R.string.contract_successfully_created, it.title))
+            parentFragmentManager.popBackStack()
+        }.launchIn(lifecycleScope)
+        adminViewModel.responseCreateContractMessage.onEach {
+            showToast(it)
+        }.launchIn(lifecycleScope)
+
+        adminViewModel.responseCreateContractError.onEach {
+            it.printStackTrace()
+        }.launchIn(lifecycleScope)
+
         adminViewModel.responseUploadFileSuccess.onEach {
             fileId = it.id
         }.launchIn(lifecycleScope)
@@ -74,7 +88,7 @@ class AddContractFragment: Fragment() {
                 if (fileId != -1){
                     if (contractTitleIsValid) {
                         lifecycleScope.launch {
-                            adminViewModel.createContract(binding.editTextAddTitle.getString(), fileId)
+                            adminViewModel.createContract(binding.editTextAddTitle.getString(), fileId, farmer.id)
                         }
                     }
                 } else {

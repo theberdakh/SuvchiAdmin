@@ -4,26 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
-import coil.load
 import com.google.android.material.tabs.TabLayoutMediator
 import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.contract.models.Contract
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
 import com.theberdakh.suvchiadmin.databinding.FragmentFarmerProfileBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
-import com.theberdakh.suvchiadmin.ui.add_farmer.AddFarmerFragment
-import com.theberdakh.suvchiadmin.ui.contracts.ContractsFragment
 import com.theberdakh.suvchiadmin.ui.contracts.ContractsPagingAdapter
-import com.theberdakh.suvchiadmin.ui.dashboard.DashboardFragment
-import com.theberdakh.suvchiadmin.ui.farmer_profile.info.FarmerProfileInfoFragment
-import com.theberdakh.suvchiadmin.ui.farmer_profile.sensors.FarmerSensorsFragment
+import com.theberdakh.suvchiadmin.ui.farmer_contracts.FarmerContractsFragment
+import com.theberdakh.suvchiadmin.ui.farmer_dashboard.FarmerDashboardFragment
+import com.theberdakh.suvchiadmin.ui.farmer_reports.FarmerReportsFragment
+import com.theberdakh.suvchiadmin.ui.farmer_sensors.FarmerSensorsFragment
 import com.theberdakh.suvchiadmin.ui.sensors.AllSensorsFragment
 import com.theberdakh.suvchiadmin.utils.addFragment
-import com.theberdakh.suvchiadmin.utils.addFragmentToBackStack
 import com.theberdakh.suvchiadmin.utils.showToast
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -84,7 +79,7 @@ class FarmerProfileFragment(val farmer: Farmer) : Fragment(), ContractsPagingAda
     }
 
     private fun initViews() {
-        val viewPagerAdapter = FarmerProfileViewPager(listOf(DashboardFragment(), ContractsFragment(),  AllSensorsFragment()), parentFragmentManager, requireActivity().lifecycle)
+        val viewPagerAdapter = FarmerProfileViewPager(listOf(FarmerDashboardFragment(farmer), FarmerContractsFragment(farmer), FarmerReportsFragment(farmer),  FarmerSensorsFragment(farmer)), parentFragmentManager, requireActivity().lifecycle)
         binding.viewPager.adapter = viewPagerAdapter
         binding.toolbarAllFarmers.title = resources.getString(R.string.full_name, farmer.firstName, farmer.lastName)
 
@@ -94,10 +89,13 @@ class FarmerProfileFragment(val farmer: Farmer) : Fragment(), ContractsPagingAda
                     tab.text = "Dashboard"
                 }
                 1 -> {
-                    tab.text = "Contracts"
+                    tab.text = getString(R.string.contracts)
                 }
                 2 -> {
-                    tab.text = "All sensors"
+                    tab.text = getString(R.string.reports)
+                }
+                3 -> {
+                    tab.text = getString(R.string.devices)
                 }
             }
         }.attach()
