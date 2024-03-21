@@ -11,6 +11,8 @@ import com.theberdakh.suvchiadmin.data.remote.ResultData
 import com.theberdakh.suvchiadmin.data.remote.contract.models.CreateContractRequestBody
 import com.theberdakh.suvchiadmin.data.remote.contract.models.CreateContractResponse
 import com.theberdakh.suvchiadmin.data.remote.contract.models.UploadFileResponse
+import com.theberdakh.suvchiadmin.data.remote.coordination.models.Coordination
+import com.theberdakh.suvchiadmin.data.remote.coordination.models.CreateCoordinationRequestBody
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.CreateFarmerRequestBody
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
 import com.theberdakh.suvchiadmin.data.remote.regions.models.Region
@@ -50,6 +52,10 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
     val responseCreateSensorMessage = MutableSharedFlow<String>()
     val responseCreateSensorError = MutableSharedFlow<Throwable>()
 
+    val responseCreateCoordinationSuccess = MutableSharedFlow<Coordination>()
+    val responseCreateCoordinationMessage = MutableSharedFlow<String>()
+    val responseCreateCoordinationError = MutableSharedFlow<Throwable>()
+
 
     val regions = Pager(
         PagingConfig(pageSize = 1)
@@ -76,6 +82,21 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
     }.flow.cachedIn(viewModelScope)
 
 
+    suspend fun createCoordination(h: Int, q: Int){
+        repository.createCoordination(CreateCoordinationRequestBody(h = h, q = q)).onEach {
+            when (it) {
+                is ResultData.Success -> {
+                    responseCreateCoordinationSuccess.emit(it.data)
+                }
+                is ResultData.Message -> {
+                    responseCreateCoordinationMessage.emit(it.message)
+                }
+                is ResultData.Error -> {
+                    responseCreateCoordinationError.emit(it.error)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
 
     suspend fun createFarmer(
         farmerRequestBody: CreateFarmerRequestBody

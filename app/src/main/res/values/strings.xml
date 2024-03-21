@@ -53,4 +53,7 @@
     <string name="helper_imei">15 cifrdan ibarat úskene mánzili</string>
     <string name="all_coordination">Kordinatalar</string>
     <string name="add_coordination">Kordinata qosıw</string>
+    <string name="q">Q</string>
+    <string name="h">H</string>
+    <string name="coordination_successfully_created">%1$s hám %2$s jaratıldı</string>
 </resources>
