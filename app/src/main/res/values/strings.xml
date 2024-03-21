@@ -51,4 +51,6 @@
     <string name="devices">Úskeneler</string>
     <string name="sensor_settings">Úskene sazlawları</string>
     <string name="helper_imei">15 cifrdan ibarat úskene mánzili</string>
+    <string name="all_coordination">Kordinatalar</string>
+    <string name="add_coordination">Kordinata qosıw</string>
 </resources>

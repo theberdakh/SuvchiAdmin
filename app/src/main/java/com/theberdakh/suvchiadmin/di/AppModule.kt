@@ -9,6 +9,6 @@ val appModule = module {
         AuthRepository(api = get())
     }
     single {
-        AdminRepository(regionsApi = get(), farmersApi = get(), contractsApi = get(), sensorsApi = get())
+        AdminRepository(regionsApi = get(), farmersApi = get(), contractsApi = get(), sensorsApi = get(), coordinationApi = get())
     }
 }

@@ -17,6 +17,7 @@ import com.theberdakh.suvchiadmin.data.remote.regions.models.Region
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.CreateSensorRequestBody
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.CreateSensorResponse
 import com.theberdakh.suvchiadmin.domain.AdminRepository
+import com.theberdakh.suvchiadmin.ui.all_coordination.paging.CoordinationPagingSource
 import com.theberdakh.suvchiadmin.ui.contracts.ContractsPagingSource
 import com.theberdakh.suvchiadmin.ui.all_regions.RegionsPagingSource
 import com.theberdakh.suvchiadmin.ui.farmers.FarmersPagingSource
@@ -66,6 +67,12 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
         PagingConfig(pageSize = 1)
     ) {
         SensorsPagingSource(repository.sensorsApi)
+    }.flow.cachedIn(viewModelScope)
+
+    val coordination = Pager(
+        PagingConfig(pageSize = 1)
+    ) {
+        CoordinationPagingSource(repository.coordinationApi)
     }.flow.cachedIn(viewModelScope)
 
 

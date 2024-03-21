@@ -13,7 +13,7 @@ import retrofit2.http.POST
 
 interface SensorsApi {
 
-    @GET("/admin/sensors")
+    @GET("/admin/sensors?sort[id]=DESC")
     suspend fun getAllSensors(): Response<DataResponse<Sensor>>
 
     @POST("/admin/sensors")

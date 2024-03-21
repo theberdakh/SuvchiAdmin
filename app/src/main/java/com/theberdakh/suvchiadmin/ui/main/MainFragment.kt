@@ -20,6 +20,7 @@ import com.theberdakh.suvchiadmin.data.remote.auth.models.LoginResponse
 import com.theberdakh.suvchiadmin.databinding.FragmentMainBinding
 import com.theberdakh.suvchiadmin.presentation.AuthViewModel
 import com.theberdakh.suvchiadmin.ui.add_sensor.AddSensorFragment
+import com.theberdakh.suvchiadmin.ui.all_coordination.AllCoordinationFragment
 import com.theberdakh.suvchiadmin.ui.all_regions.AllRegionsFragment
 import com.theberdakh.suvchiadmin.ui.sensors.AllSensorsFragment
 import com.theberdakh.suvchiadmin.ui.settings.SettingsFragment
@@ -68,9 +69,18 @@ class MainFragment : Fragment() {
             AllRegionsFragment()
         )
 
-        binding.toolbar.setOnMenuItemClickListener {menuItem ->
-            if (menuItem.itemId == R.id.action_top_add_new_sensor){
-               addFragmentToBackStack(requireActivity().supportFragmentManager, R.id.fragment_parent_container, AddSensorFragment())
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_top_add_new_sensor -> addFragmentToBackStack(
+                    requireActivity().supportFragmentManager,
+                    R.id.fragment_parent_container,
+                    AddSensorFragment()
+                )
+                R.id.action_top_settings -> addFragmentToBackStack(
+                    requireActivity().supportFragmentManager,
+                    R.id.fragment_parent_container,
+                    AllCoordinationFragment()
+                )
             }
             true
         }

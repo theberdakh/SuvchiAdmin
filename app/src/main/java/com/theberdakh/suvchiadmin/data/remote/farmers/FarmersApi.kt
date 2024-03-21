@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 interface FarmersApi {
 
-    @GET("/admin/users/")
+    @GET("/admin/users/?sort[id]=DESC")
     suspend fun getAllFarmersByRegionId(@Query("regionId") regionId: Int): Response<DataResponse<Farmer>>
 
     @POST("/admin/users")

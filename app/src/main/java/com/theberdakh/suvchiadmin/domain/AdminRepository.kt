@@ -3,6 +3,7 @@ package com.theberdakh.suvchiadmin.domain
 import com.theberdakh.suvchiadmin.data.remote.ResultData
 import com.theberdakh.suvchiadmin.data.remote.contract.ContractsApi
 import com.theberdakh.suvchiadmin.data.remote.contract.models.CreateContractRequestBody
+import com.theberdakh.suvchiadmin.data.remote.coordination.CoordinationApi
 import com.theberdakh.suvchiadmin.data.remote.farmers.FarmersApi
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.CreateFarmerRequestBody
 import com.theberdakh.suvchiadmin.data.remote.regions.RegionsApi
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
 
-class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, val contractsApi: ContractsApi, val sensorsApi: SensorsApi) {
+class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, val contractsApi: ContractsApi, val sensorsApi: SensorsApi, val coordinationApi: CoordinationApi) {
 
     suspend fun createFarmer(createFarmerRequestBody: CreateFarmerRequestBody)= flow {
         val response = farmersApi.createFarmer(farmer = createFarmerRequestBody)

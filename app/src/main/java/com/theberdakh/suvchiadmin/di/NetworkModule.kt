@@ -2,6 +2,8 @@ package com.theberdakh.suvchiadmin.di
 
 import com.theberdakh.suvchiadmin.data.remote.auth.AuthApi
 import com.theberdakh.suvchiadmin.data.remote.contract.ContractsApi
+import com.theberdakh.suvchiadmin.data.remote.coordination.CoordinationApi
+import com.theberdakh.suvchiadmin.data.remote.coordination.models.Coordination
 import com.theberdakh.suvchiadmin.data.remote.farmers.FarmersApi
 import com.theberdakh.suvchiadmin.data.remote.regions.RegionsApi
 import com.theberdakh.suvchiadmin.data.remote.sensors.SensorsApi
@@ -55,6 +57,9 @@ val networkModule = module {
     }
     single {
         get<Retrofit>().create(SensorsApi::class.java)
+    }
+    single {
+        get<Retrofit>().create(CoordinationApi::class.java)
     }
 
 
