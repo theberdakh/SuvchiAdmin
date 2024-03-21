@@ -1,4 +1,4 @@
-package com.theberdakh.suvchiadmin.ui.sensors
+package com.theberdakh.suvchiadmin.ui.all_sensors
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.theberdakh.suvchiadmin.ui.sensors
+package com.theberdakh.suvchiadmin.ui.all_sensors
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import com.theberdakh.suvchiadmin.data.remote.sensors.models.Sensor
 import com.theberdakh.suvchiadmin.databinding.FragmentAllSensorsBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.utils.showToast
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

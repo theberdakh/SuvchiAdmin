@@ -16,6 +16,8 @@ import com.theberdakh.suvchiadmin.data.remote.coordination.models.CreateCoordina
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.CreateFarmerRequestBody
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
 import com.theberdakh.suvchiadmin.data.remote.regions.models.Region
+import com.theberdakh.suvchiadmin.data.remote.sensors.models.AttachSensorRequestBody
+import com.theberdakh.suvchiadmin.data.remote.sensors.models.AttachSensorResponse
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.CreateSensorRequestBody
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.CreateSensorResponse
 import com.theberdakh.suvchiadmin.domain.AdminRepository
@@ -23,7 +25,7 @@ import com.theberdakh.suvchiadmin.ui.all_coordination.paging.CoordinationPagingS
 import com.theberdakh.suvchiadmin.ui.contracts.ContractsPagingSource
 import com.theberdakh.suvchiadmin.ui.all_regions.RegionsPagingSource
 import com.theberdakh.suvchiadmin.ui.farmers.FarmersPagingSource
-import com.theberdakh.suvchiadmin.ui.sensors.SensorsPagingSource
+import com.theberdakh.suvchiadmin.ui.all_sensors.SensorsPagingSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
@@ -186,6 +188,26 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
                 }
                 is ResultData.Error -> {
                     responseAllRegionsByStateIdError.emit(it.error)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    val attachSensorSuccess = MutableSharedFlow<AttachSensorResponse>()
+    val attachSensorMessage = MutableSharedFlow<String>()
+    val attachSensorError = MutableSharedFlow<Throwable>()
+    suspend fun attachSensor(sensorId: Int, farmerId: Int) {
+        val body = AttachSensorRequestBody(sensorId = sensorId, userId = farmerId)
+        repository.attachSensor(body).onEach {
+            when (it) {
+                is ResultData.Success -> {
+                    attachSensorSuccess.emit(it.data)
+                }
+                is ResultData.Message -> {
+                    attachSensorMessage.emit(it.message)
+                }
+                is ResultData.Error -> {
+                    attachSensorError.emit(it.error)
                 }
             }
         }.launchIn(viewModelScope)

@@ -1,8 +1,7 @@
-package com.theberdakh.suvchiadmin.ui.sensors
+package com.theberdakh.suvchiadmin.ui.all_sensors
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.theberdakh.suvchiadmin.data.remote.contract.models.Contract
 import com.theberdakh.suvchiadmin.data.remote.sensors.SensorsApi
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.Sensor
 

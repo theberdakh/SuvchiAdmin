@@ -56,4 +56,6 @@
     <string name="q">Q</string>
     <string name="h">H</string>
     <string name="coordination_successfully_created">%1$s hám %2$s jaratıldı</string>
+    <string name="attach_sensor">Úskeneni jalǵaw</string>
+    <string name="helper_attach_sensor_to_farmer">Fermerge jalǵaw ushın úskene ústin basıń</string>
 </resources>

@@ -7,12 +7,13 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_all_contracts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_all_sensors"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 
@@ -28,9 +29,9 @@
         android:layout_marginVertical="8dp"
         android:textColor="@color/white"
         app:iconTint="@color/white"
-        android:text="@string/add_contract"
+        android:text="@string/attach_sensor"
         app:cornerRadius="13dp"
-        app:icon="@drawable/round_file_add_24" />
+        app:icon="@drawable/round_sensors_24" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

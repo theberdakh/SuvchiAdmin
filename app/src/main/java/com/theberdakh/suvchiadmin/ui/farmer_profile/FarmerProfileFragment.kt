@@ -17,7 +17,7 @@ import com.theberdakh.suvchiadmin.ui.farmer_contracts.FarmerContractsFragment
 import com.theberdakh.suvchiadmin.ui.farmer_dashboard.FarmerDashboardFragment
 import com.theberdakh.suvchiadmin.ui.farmer_reports.FarmerReportsFragment
 import com.theberdakh.suvchiadmin.ui.farmer_sensors.FarmerSensorsFragment
-import com.theberdakh.suvchiadmin.ui.sensors.AllSensorsFragment
+import com.theberdakh.suvchiadmin.ui.all_sensors.AllSensorsFragment
 import com.theberdakh.suvchiadmin.utils.addFragment
 import com.theberdakh.suvchiadmin.utils.showToast
 import kotlinx.coroutines.launch

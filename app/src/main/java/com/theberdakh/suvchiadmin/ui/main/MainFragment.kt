@@ -22,7 +22,7 @@ import com.theberdakh.suvchiadmin.presentation.AuthViewModel
 import com.theberdakh.suvchiadmin.ui.add_sensor.AddSensorFragment
 import com.theberdakh.suvchiadmin.ui.all_coordination.AllCoordinationFragment
 import com.theberdakh.suvchiadmin.ui.all_regions.AllRegionsFragment
-import com.theberdakh.suvchiadmin.ui.sensors.AllSensorsFragment
+import com.theberdakh.suvchiadmin.ui.all_sensors.AllSensorsFragment
 import com.theberdakh.suvchiadmin.ui.settings.SettingsFragment
 import com.theberdakh.suvchiadmin.utils.addFragmentToBackStack
 import com.theberdakh.suvchiadmin.utils.replaceFragment

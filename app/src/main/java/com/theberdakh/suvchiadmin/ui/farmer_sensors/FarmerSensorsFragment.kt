@@ -9,6 +9,7 @@ import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
 import com.theberdakh.suvchiadmin.databinding.FragmentFarmerSensorsBinding
 import com.theberdakh.suvchiadmin.ui.add_sensor.AddSensorFragment
+import com.theberdakh.suvchiadmin.ui.attach_sensor.AttachSensorFragment
 import com.theberdakh.suvchiadmin.utils.addFragment
 
 class FarmerSensorsFragment(val farmer: Farmer) : Fragment() {
@@ -30,8 +31,9 @@ class FarmerSensorsFragment(val farmer: Farmer) : Fragment() {
 
     private fun initListeners() {
 
+
         binding.fabCreateNewSensor.setOnClickListener {
-            addFragment(parentFragmentManager, R.id.fragment_parent_container, AddSensorFragment())
+            addFragment(parentFragmentManager, R.id.fragment_parent_container, AttachSensorFragment(farmer))
         }
 
     }
