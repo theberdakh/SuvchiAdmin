@@ -7,8 +7,7 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_all_sensors"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_all_sensors"
@@ -26,7 +25,7 @@
         android:layout_gravity="end|bottom"
         android:layout_marginHorizontal="8dp"
         android:layout_marginVertical="8dp"
-        android:backgroundTint="?colorPrimaryDark"
+       android:backgroundTint="?colorPrimaryDark"
         android:text="@string/attach_sensor"
         android:textColor="@color/white"
         app:cornerRadius="13dp"
