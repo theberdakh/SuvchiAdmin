@@ -23,6 +23,7 @@ import com.theberdakh.suvchiadmin.utils.shakeIf
 import com.theberdakh.suvchiadmin.utils.shakeIfEmptyOrBlank
 import com.theberdakh.suvchiadmin.utils.showSnackbar
 import com.theberdakh.suvchiadmin.utils.showToast
+import com.theberdakh.suvchiadmin.utils.vibratePhone
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -125,6 +126,7 @@ class AddFarmerFragment : Fragment() {
                    val farmer =  createFarmer()
                     postFarmer(farmer)
                 } else {
+                    requireActivity().vibratePhone()
                     binding.toolbarAllFarmers.showSnackbar(getString(R.string.fill_all_blanks))
                 }
 

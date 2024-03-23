@@ -8,6 +8,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.theberdakh.suvchiadmin.data.remote.DataResponse
 import com.theberdakh.suvchiadmin.data.remote.ResultData
+import com.theberdakh.suvchiadmin.data.remote.contract.models.Contract
+import com.theberdakh.suvchiadmin.data.remote.contract.models.ContractByFarmerId
 import com.theberdakh.suvchiadmin.data.remote.contract.models.CreateContractRequestBody
 import com.theberdakh.suvchiadmin.data.remote.contract.models.CreateContractResponse
 import com.theberdakh.suvchiadmin.data.remote.contract.models.UploadFileResponse
@@ -20,12 +22,15 @@ import com.theberdakh.suvchiadmin.data.remote.sensors.models.AttachSensorRequest
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.AttachSensorResponse
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.CreateSensorRequestBody
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.CreateSensorResponse
+import com.theberdakh.suvchiadmin.data.remote.sensors.models.Sensor
 import com.theberdakh.suvchiadmin.domain.AdminRepository
 import com.theberdakh.suvchiadmin.ui.all_coordination.paging.CoordinationPagingSource
 import com.theberdakh.suvchiadmin.ui.contracts.ContractsPagingSource
 import com.theberdakh.suvchiadmin.ui.all_regions.RegionsPagingSource
 import com.theberdakh.suvchiadmin.ui.farmers.FarmersPagingSource
 import com.theberdakh.suvchiadmin.ui.all_sensors.SensorsPagingSource
+import com.theberdakh.suvchiadmin.ui.farmer_contracts.ContractsByFarmerIdPagingSource
+import com.theberdakh.suvchiadmin.ui.farmer_sensors.SensorsByFarmerIdPagingSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
@@ -71,6 +76,24 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
         ContractsPagingSource(repository.contractsApi)
     }.flow.cachedIn(viewModelScope)
 
+
+    fun getAllContractsByFarmerId(id: Int): Flow<PagingData<ContractByFarmerId>> {
+        return Pager(
+            PagingConfig(pageSize = 1)
+        ) {
+            ContractsByFarmerIdPagingSource(repository.contractsApi, id)
+        }.flow.cachedIn(viewModelScope)
+    }
+
+    fun getAllSensorsByFarmerId(id: Int): Flow<PagingData<Sensor>> {
+        return Pager(
+            PagingConfig(pageSize = 1)
+        ) {
+            SensorsByFarmerIdPagingSource(repository.sensorsApi, id)
+        }.flow.cachedIn(viewModelScope)
+    }
+
+
     val sensors = Pager(
         PagingConfig(pageSize = 1)
     ) {
@@ -84,15 +107,17 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
     }.flow.cachedIn(viewModelScope)
 
 
-    suspend fun createCoordination(h: Int, q: Int){
+    suspend fun createCoordination(h: Int, q: Int) {
         repository.createCoordination(CreateCoordinationRequestBody(h = h, q = q)).onEach {
             when (it) {
                 is ResultData.Success -> {
                     responseCreateCoordinationSuccess.emit(it.data)
                 }
+
                 is ResultData.Message -> {
                     responseCreateCoordinationMessage.emit(it.message)
                 }
+
                 is ResultData.Error -> {
                     responseCreateCoordinationError.emit(it.error)
                 }
@@ -108,9 +133,11 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
                 is ResultData.Success -> {
                     responseCreateFarmerSuccess.emit(it.data)
                 }
+
                 is ResultData.Message -> {
                     responseCreateFarmerMessage.emit(it.message)
                 }
+
                 is ResultData.Error -> {
                     responseCreateFarmerError.emit(it.error)
                 }
@@ -118,15 +145,17 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
         }.launchIn(viewModelScope)
     }
 
-    suspend fun createSensor(name: String, imei: String){
+    suspend fun createSensor(name: String, imei: String) {
         repository.createSensor(CreateSensorRequestBody(name = name, imei = imei)).onEach {
             when (it) {
                 is ResultData.Success -> {
                     responseCreateSensorSuccess.emit(it.data)
                 }
+
                 is ResultData.Message -> {
                     responseCreateSensorMessage.emit(it.message)
                 }
+
                 is ResultData.Error -> {
                     responseCreateSensorError.emit(it.error)
                 }
@@ -143,9 +172,11 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
                 is ResultData.Success -> {
                     responseUploadFileSuccess.emit(it.data)
                 }
+
                 is ResultData.Message -> {
                     responseUploadFileMessage.emit(it.message)
                 }
+
                 is ResultData.Error -> {
                     responseUploadFileError.emit(it.error)
                 }
@@ -157,14 +188,13 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
         val userIds = listOf(userId)
         val createContractRequestBody = CreateContractRequestBody(title, fileId, userId = userIds)
         repository.createContract(createContractRequestBody).onEach {
-            when(it){
+            when (it) {
                 is ResultData.Success -> responseCreateContractSuccess.emit(it.data)
                 is ResultData.Message -> responseCreateContractMessage.emit(it.message)
                 is ResultData.Error -> responseCreateContractError.emit(it.error)
             }
         }.launchIn(viewModelScope)
     }
-
 
 
     fun getAllFarmersByRegionId(regionId: Int): Flow<PagingData<Farmer>> {
@@ -183,9 +213,11 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
                 is ResultData.Success -> {
                     responseAllRegionsByStateIdSuccess.emit(it.data)
                 }
+
                 is ResultData.Message -> {
                     responseAllRegionsByStateIdMessage.emit(it.message)
                 }
+
                 is ResultData.Error -> {
                     responseAllRegionsByStateIdError.emit(it.error)
                 }
@@ -203,9 +235,11 @@ class AdminViewModel(val repository: AdminRepository) : ViewModel() {
                 is ResultData.Success -> {
                     attachSensorSuccess.emit(it.data)
                 }
+
                 is ResultData.Message -> {
                     attachSensorMessage.emit(it.message)
                 }
+
                 is ResultData.Error -> {
                     attachSensorError.emit(it.error)
                 }

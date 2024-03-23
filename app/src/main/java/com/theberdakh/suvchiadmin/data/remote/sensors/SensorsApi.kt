@@ -10,6 +10,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface SensorsApi {
 
@@ -22,5 +23,6 @@ interface SensorsApi {
     @POST("admin/sensors/attach")
     suspend fun attachSensorToFarmer(@Body attachSensorRequestBody: AttachSensorRequestBody): Response<AttachSensorResponse>
 
-
+    @GET("/admin/sensors/fermer/{id}")
+    suspend fun getAllSensorsByFarmerId(@Path("id") id: Int): Response<DataResponse<Sensor>>
 }

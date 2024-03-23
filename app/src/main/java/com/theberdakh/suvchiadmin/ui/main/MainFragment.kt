@@ -54,20 +54,22 @@ class MainFragment : Fragment() {
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 
+        initViews()
         initObservers()
-
-        initBottomNavigation()
+        initListeners()
 
         return binding.root
     }
 
-    private fun initBottomNavigation() {
-        //to set default fragment when no menu item clicked
+    private fun initViews() {
         replaceFragment(
             childFragmentManager,
             R.id.nested_fragment_container,
             AllRegionsFragment()
         )
+    }
+
+    private fun initListeners() {
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -84,8 +86,6 @@ class MainFragment : Fragment() {
             }
             true
         }
-
-
         binding.bottomNavView.setOnItemSelectedListener { menuItem ->
             val nestedFragment = when (menuItem.itemId) {
                 R.id.action_bottom_dashboard -> {
@@ -111,8 +111,6 @@ class MainFragment : Fragment() {
 
             true
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

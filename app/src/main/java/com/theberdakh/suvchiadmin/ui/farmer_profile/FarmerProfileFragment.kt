@@ -79,7 +79,7 @@ class FarmerProfileFragment(val farmer: Farmer) : Fragment(), ContractsPagingAda
     }
 
     private fun initViews() {
-        val viewPagerAdapter = FarmerProfileViewPager(listOf(FarmerDashboardFragment(farmer), FarmerContractsFragment(farmer), FarmerReportsFragment(farmer),  FarmerSensorsFragment(farmer)), parentFragmentManager, requireActivity().lifecycle)
+        val viewPagerAdapter = FarmerProfileViewPager(listOf(FarmerDashboardFragment(farmer), FarmerContractsFragment(farmer),  FarmerSensorsFragment(farmer)), parentFragmentManager, requireActivity().lifecycle)
         binding.viewPager.adapter = viewPagerAdapter
         binding.toolbarAllFarmers.title = resources.getString(R.string.full_name, farmer.firstName, farmer.lastName)
 
@@ -92,9 +92,6 @@ class FarmerProfileFragment(val farmer: Farmer) : Fragment(), ContractsPagingAda
                     tab.text = getString(R.string.contracts)
                 }
                 2 -> {
-                    tab.text = getString(R.string.reports)
-                }
-                3 -> {
                     tab.text = getString(R.string.devices)
                 }
             }
