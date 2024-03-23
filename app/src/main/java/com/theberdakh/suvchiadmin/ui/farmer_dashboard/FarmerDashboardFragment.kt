@@ -19,6 +19,10 @@ class FarmerDashboardFragment(farmer: Farmer) : Fragment() {
     ): View {
         _binding = FragmentFarmerDashboardBinding.inflate(inflater, container, false)
 
+        val adapter = ChartAdapter()
+        binding.recyclerView.adapter = adapter
+        adapter.submitList(Charts.getCharts())
+
         return binding.root
     }
 

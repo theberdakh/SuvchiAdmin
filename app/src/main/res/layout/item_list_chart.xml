@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/title"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Suw sarpi"
+        android:textAppearance="?textAppearanceTitleLarge"
+        />
+
+    <com.patrykandpatrick.vico.views.chart.ChartView
+        android:id="@+id/chart_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:chart="line"
+        app:chartHorizontalScrollingEnabled="true"
+        app:chartZoomEnabled="true"
+        app:fadingEdgeVisibilityInterpolator="androidx.interpolator.view.animation.FastOutSlowInInterpolator"
+        app:fadingEdgeWidth="32dp"
+        app:lineChartStyle="@style/Chart1LineLayerStyle"
+        app:showBottomAxis="true"
+        app:showStartAxis="true"
+        app:startAxisStyle="@style/Chart1StartAxisStyle" />
+
+</LinearLayout>
