@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.databinding.FragmentAddCoordinationBinding
@@ -39,7 +40,6 @@ class AddCoordinationFragment: Fragment() {
 
     private fun initObservers() {
         adminViewModel.responseCreateCoordinationSuccess.onEach {
-            showToast(getString(R.string.coordination_successfully_created, it.h.toString(), it.q.toString()))
             requireActivity().supportFragmentManager.popBackStack()
         }.launchIn(lifecycleScope)
 
@@ -78,8 +78,6 @@ class AddCoordinationFragment: Fragment() {
             } else {
                 requireActivity().vibratePhone()
             }
-
-
 
 
             true

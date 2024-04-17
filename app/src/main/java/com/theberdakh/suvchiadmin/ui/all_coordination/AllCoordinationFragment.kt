@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.theberdakh.suvchiadmin.R
@@ -16,6 +17,7 @@ import com.theberdakh.suvchiadmin.ui.add_coordination.AddCoordinationFragment
 import com.theberdakh.suvchiadmin.ui.all_coordination.paging.CoordinationAdapter
 import com.theberdakh.suvchiadmin.utils.addFragment
 import com.theberdakh.suvchiadmin.utils.addFragmentToBackStack
+import com.theberdakh.suvchiadmin.utils.showToast
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,12 +36,28 @@ class AllCoordinationFragment : Fragment() {
         Log.d("AllCordination", "OnCreate")
         _binding = FragmentAllCoordinationsBinding.inflate(inflater, container, false)
 
+
+        setFragmentResultListener("AddCoordinationFragment") { requestKey, bundle ->
+            val result = bundle.getString("update")
+            if (result.isNullOrBlank() && result == "update") {
+                initObservers()
+            }
+        }
+
+        parentFragmentManager.addOnBackStackChangedListener {
+            if (isVisible) {
+                initObservers()
+                coordinationAdapter.refresh()
+            }
+        }
+
         initViews()
         initObservers()
         initListeners()
 
         return binding.root
     }
+
 
     private fun initListeners() {
         binding.toolbarAllCoordination.setNavigationOnClickListener {
@@ -51,24 +69,12 @@ class AllCoordinationFragment : Fragment() {
             coordinationAdapter.refresh()
         }
         binding.fabCreateNewCoordination.setOnClickListener {
-            addFragment(requireActivity().supportFragmentManager, R.id.fragment_parent_container, AddCoordinationFragment())
+            addFragment(
+                requireActivity().supportFragmentManager,
+                R.id.fragment_parent_container,
+                AddCoordinationFragment()
+            )
         }
-    }
-
-    override fun onResume() {
-        Log.d("AllCordination", "OnResume")
-        super.onResume()
-    }
-
-    override fun onStart() {
-        Log.d("AllCordination", "OnStart")
-        super.onStart()
-    }
-
-
-    override fun onAttach(context: Context) {
-        Log.d("AllCordination", "OnAttach")
-        super.onAttach(context)
     }
 
 
@@ -79,7 +85,7 @@ class AllCoordinationFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             coordinationAdapter.loadStateFlow.collect {
                 val state = it.refresh
                 binding.swipeRefreshAllCoordination.isRefreshing = state is LoadState.Loading
@@ -97,5 +103,9 @@ class AllCoordinationFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+        parentFragmentManager.removeOnBackStackChangedListener {
+            showToast("visible")
+
+        }
     }
 }
