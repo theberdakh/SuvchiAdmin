@@ -36,14 +36,6 @@ class AllCoordinationFragment : Fragment() {
         Log.d("AllCordination", "OnCreate")
         _binding = FragmentAllCoordinationsBinding.inflate(inflater, container, false)
 
-
-        setFragmentResultListener("AddCoordinationFragment") { requestKey, bundle ->
-            val result = bundle.getString("update")
-            if (result.isNullOrBlank() && result == "update") {
-                initObservers()
-            }
-        }
-
         parentFragmentManager.addOnBackStackChangedListener {
             if (isVisible) {
                 initObservers()

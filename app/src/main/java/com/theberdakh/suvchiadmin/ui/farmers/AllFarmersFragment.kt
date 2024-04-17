@@ -43,8 +43,20 @@ class AllFarmersFragment(private val region: Region) : Fragment(), FarmersAdapte
         initListeners()
         initObservers()
 
+        refreshDataOnBack()
+
+
 
         return binding.root
+    }
+
+    private fun refreshDataOnBack() {
+        parentFragmentManager.addOnBackStackChangedListener {
+            if (isVisible) {
+                initObservers()
+                farmersAdapter.refresh()
+            }
+        }
     }
 
     private fun initObservers() {
