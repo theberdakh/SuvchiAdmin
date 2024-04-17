@@ -89,10 +89,16 @@ class LoginFragment : Fragment() {
             SharedPreferences().lastName = lastName
             SharedPreferences().middleName = middleName
             SharedPreferences().phone = phone
-            SharedPreferences().avatar = avatar
+            if (avatar != null) {
+                SharedPreferences().avatar = avatar
+            }
             SharedPreferences().username = username
-            SharedPreferences().latitude = latitude
-            SharedPreferences().longitude = longitude
+            if (latitude != null) {
+                SharedPreferences().latitude = latitude
+            }
+            if (longitude != null) {
+                SharedPreferences().longitude = longitude
+            }
             SharedPreferences().passport = passport
         }
     }
@@ -109,8 +115,6 @@ class LoginFragment : Fragment() {
         } else {
             showToast("Siziń akkoutıńız admin statusına iye emes.")
         }
-
-
     }
 
     private fun requestUserProfile() {

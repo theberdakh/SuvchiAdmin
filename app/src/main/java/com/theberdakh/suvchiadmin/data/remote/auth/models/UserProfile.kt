@@ -6,9 +6,9 @@ data class UserProfile(
     val lastName: String,
     val middleName: String,
     val phone: String,
-    val avatar: String,
+    val avatar: String?,
     val username: String,
-    val latitude: String,
-    val longitude: String,
+    val latitude: String?,
+    val longitude: String?,
     val passport: String,
 )
