@@ -39,9 +39,9 @@ class AddSensorFragment : Fragment() {
         return binding.root
     }
 
+
     private fun initObservers() {
         adminViewModel.responseCreateSensorSuccess.onEach {
-            showToast("Created ${it.createdAt}")
             requireActivity().supportFragmentManager.popBackStack()
         }.launchIn(lifecycleScope)
 
@@ -55,6 +55,12 @@ class AddSensorFragment : Fragment() {
     }
 
     private fun initListeners() {
+
+        binding.toolbarAddSensor.setNavigationOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+
         binding.toolbarAddSensor.setOnMenuItemClickListener {
         if (it.itemId == R.id.action_menu_add_sensor){
             val nameIsValid = binding.editTextAddName.shakeIf { name -> name.isEmptyOrBlank() }

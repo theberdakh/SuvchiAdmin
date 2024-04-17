@@ -43,6 +43,13 @@ class FarmerContractsFragment(val farmer: Farmer) : Fragment(),
         initViews()
         initListeners()
 
+        parentFragmentManager.addOnBackStackChangedListener {
+            if (isVisible){
+                initObservers()
+                contractsByFarmerIdPagingAdapter.refresh()
+            }
+        }
+
         return binding.root
     }
 

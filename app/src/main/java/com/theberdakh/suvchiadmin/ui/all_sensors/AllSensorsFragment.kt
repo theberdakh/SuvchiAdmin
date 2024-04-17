@@ -33,13 +33,22 @@ class AllSensorsFragment : Fragment(), SensorsPagingAdapter.SensorClickEvent {
         initObservers()
         initListeners()
 
+        requireActivity().supportFragmentManager.addOnBackStackChangedListener {
+            if (isVisible){
+                initObservers()
+                allSensorsAdapter.refresh()
+            }
+        }
+
 
         return binding.root
     }
 
     private fun initListeners() {
+
         binding.swipeRefreshAllSensors.setOnRefreshListener {
             initObservers()
+            allSensorsAdapter.refresh()
         }
     }
 

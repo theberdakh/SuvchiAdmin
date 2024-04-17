@@ -38,6 +38,13 @@ class FarmerSensorsFragment(val farmer: Farmer) : Fragment(), SensorsPagingAdapt
         initListeners()
 
 
+        parentFragmentManager.addOnBackStackChangedListener {
+            if (isVisible){
+                initObservers()
+                allSensorsAdapter.refresh()
+            }
+        }
+
         return binding.root
     }
 
