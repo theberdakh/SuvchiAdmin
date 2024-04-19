@@ -12,6 +12,7 @@ import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.local.SharedPreferences
 import com.theberdakh.suvchiadmin.data.remote.auth.models.LoginResponse
 import com.theberdakh.suvchiadmin.data.remote.auth.models.UserProfile
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentLoginBinding
 import com.theberdakh.suvchiadmin.presentation.AuthViewModel
 import com.theberdakh.suvchiadmin.utils.getString
@@ -148,10 +149,14 @@ class LoginFragment : Fragment() {
 
     private fun login(username: String, password: String) {
         lifecycleScope.launch {
-            authViewModel.login(
-                username = username,
-                password = password
-            )
+            if (requireContext().isOnline()){
+                authViewModel.login(
+                    username = username,
+                    password = password
+                )
+            } else {
+                showToast(getString(R.string.check_network_connection))
+            }
         }
     }
 

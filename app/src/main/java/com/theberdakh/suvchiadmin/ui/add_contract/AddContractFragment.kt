@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentAddContractBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.utils.getFileName
@@ -88,7 +89,11 @@ class AddContractFragment(val farmer: Farmer): Fragment() {
                 if (fileId != -1){
                     if (contractTitleIsValid) {
                         lifecycleScope.launch {
-                            adminViewModel.createContract(binding.editTextAddTitle.getString(), fileId, farmer.id)
+                            if (requireContext().isOnline()){
+                                adminViewModel.createContract(binding.editTextAddTitle.getString(), fileId, farmer.id)
+                            } else {
+                                showToast(getString(R.string.check_network_connection))
+                            }
                         }
                     }
                 } else {
@@ -131,8 +136,11 @@ class AddContractFragment(val farmer: Farmer): Fragment() {
         val requestBody = file.asRequestBody(fileType.toMediaType())
         val part = MultipartBody.Part.createFormData("file", file.name, requestBody)
         lifecycleScope.launch {
-            adminViewModel.uploadContractFile(part)
-            //Not uploading
+            if (requireContext().isOnline()){
+                adminViewModel.uploadContractFile(part)
+            } else {
+             showToast(getString(R.string.check_network_connection))
+            }
         }
         inputStream?.close()
     }

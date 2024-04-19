@@ -12,6 +12,7 @@ import androidx.paging.LoadState
 import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
 import com.theberdakh.suvchiadmin.data.remote.regions.models.Region
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentAllFarmersBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.ui.add_farmer.AddFarmerFragment
@@ -62,9 +63,13 @@ class AllFarmersFragment(private val region: Region) : Fragment(), FarmersAdapte
     private fun initObservers() {
 
         lifecycleScope.launch {
-            adminViewModel.getAllFarmersByRegionId(regionId = region.id).collect {
-                farmersAdapter.submitData(it)
+            if (requireContext().isOnline()){
+                adminViewModel.getAllFarmersByRegionId(regionId = region.id).collect {
+                    farmersAdapter.submitData(it)
 
+                }
+            } else {
+                showToast(getString(R.string.check_network_connection))
             }
         }
 

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentAddSensorBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.utils.getString
@@ -68,7 +69,11 @@ class AddSensorFragment : Fragment() {
                 binding.editTextAddImei.shakeIf { imei -> imei.isEmptyOrBlank() || imei.length < 15 }
             if (nameIsValid && imeiIsValid) {
                 lifecycleScope.launch {
-                    adminViewModel.createSensor(binding.editTextAddName.getString(), binding.editTextAddImei.getString())
+                    if (requireContext().isOnline()){
+                        adminViewModel.createSensor(binding.editTextAddName.getString(), binding.editTextAddImei.getString())
+                    } else {
+                        showToast(getString(R.string.check_network_connection))
+                    }
                 }
             }
         }

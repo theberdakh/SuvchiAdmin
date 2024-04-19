@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.Sensor
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentAllSensorsBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.utils.showToast
@@ -54,8 +55,13 @@ class AllSensorsFragment : Fragment(), SensorsPagingAdapter.SensorClickEvent {
 
     private fun initObservers() {
         lifecycleScope.launch {
-            adminViewModel.sensors.collect {
-                allSensorsAdapter.submitData(it)
+
+            if (requireContext().isOnline()){
+                adminViewModel.sensors.collect {
+                    allSensorsAdapter.submitData(it)
+                }
+            } else {
+                showToast(getString(R.string.check_network_connection))
             }
         }
 

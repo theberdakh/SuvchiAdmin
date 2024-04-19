@@ -17,6 +17,8 @@ import com.theberdakh.suvchiadmin.data.local.SharedPreferences
 import com.theberdakh.suvchiadmin.data.remote.auth.AuthApi
 import com.theberdakh.suvchiadmin.data.remote.auth.models.LoginRequest
 import com.theberdakh.suvchiadmin.data.remote.auth.models.LoginResponse
+import com.theberdakh.suvchiadmin.data.remote.utils.convertToMessage
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentMainBinding
 import com.theberdakh.suvchiadmin.presentation.AuthViewModel
 import com.theberdakh.suvchiadmin.ui.add_sensor.AddSensorFragment
@@ -26,6 +28,7 @@ import com.theberdakh.suvchiadmin.ui.all_sensors.AllSensorsFragment
 import com.theberdakh.suvchiadmin.ui.settings.SettingsFragment
 import com.theberdakh.suvchiadmin.utils.addFragmentToBackStack
 import com.theberdakh.suvchiadmin.utils.replaceFragment
+import com.theberdakh.suvchiadmin.utils.showToast
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -124,26 +127,30 @@ class MainFragment : Fragment() {
     private fun initObservers() {
         //Manual handling of refresh token when access token revokes
         lifecycleScope.launch {
-            val response = try {
-                RetrofitInstance.api.login(
-                    LoginRequest(
-                        SharedPreferences().username,
-                        SharedPreferences().password
+            if (requireContext().isOnline()){
+                val response = try {
+                    RetrofitInstance.api.login(
+                        LoginRequest(
+                            SharedPreferences().username,
+                            SharedPreferences().password
+                        )
                     )
-                )
-            } catch (e: IOException) {
-                Log.d(TAG, "IOException (check internet)")
-                return@launch
-            } catch (e: HttpException) {
-                Log.d(TAG, "HttpException")
-                return@launch
-            }
-            if (response.isSuccessful && response.body() != null) {
-                Log.d(TAG, "Refresh Token: ${response.body()!!.refreshToken}")
-                refreshTokens(response.body()!!)
+                } catch (e: IOException) {
+                    showToast(getString(R.string.check_network_connection))
+                    return@launch
+                } catch (e: HttpException) {
+                    showToast("Error: ${e.message}")
+                    return@launch
+                }
+                if (response.isSuccessful && response.body() != null) {
+                    refreshTokens(response.body()!!)
+                } else {
+                    showToast(response.code().convertToMessage())
+                }
             } else {
-                Log.d(TAG, "Maǵlıwmatlardı alıwıńız ushın qayta login isleń")
+                showToast(getString(R.string.check_network_connection))
             }
+
 
         }
 

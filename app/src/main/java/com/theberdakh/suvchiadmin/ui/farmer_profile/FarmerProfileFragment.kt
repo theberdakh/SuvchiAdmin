@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.contract.models.Contract
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentFarmerProfileBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.ui.contracts.ContractsPagingAdapter
@@ -47,8 +48,12 @@ class FarmerProfileFragment(val farmer: Farmer) : Fragment(), ContractsPagingAda
     private fun initObservers(){
 
         lifecycleScope.launch {
-            adminViewModel.contracts.collect {
-                contractsAdapter.submitData(it)
+            if (requireContext().isOnline()){
+                adminViewModel.contracts.collect {
+                    contractsAdapter.submitData(it)
+                }
+            } else {
+                showToast(getString(R.string.check_network_connection))
             }
         }
 

@@ -11,6 +11,7 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.theberdakh.suvchiadmin.R
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentAllCoordinationsBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.ui.add_coordination.AddCoordinationFragment
@@ -56,7 +57,6 @@ class AllCoordinationFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
         binding.swipeRefreshAllCoordination.setOnRefreshListener {
-
             initObservers()
             coordinationAdapter.refresh()
         }
@@ -72,8 +72,13 @@ class AllCoordinationFragment : Fragment() {
 
     private fun initObservers() {
         lifecycleScope.launch {
-            adminViewModel.coordination.collect {
-                coordinationAdapter.submitData(it)
+            if (requireContext().isOnline()){
+                adminViewModel.coordination.collect {
+                    coordinationAdapter.submitData(it)
+                }
+
+            } else {
+                showToast(getString(R.string.check_network_connection))
             }
         }
 

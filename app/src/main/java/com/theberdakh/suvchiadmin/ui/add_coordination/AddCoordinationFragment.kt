@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import com.theberdakh.suvchiadmin.R
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentAddCoordinationBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.utils.getString
@@ -72,7 +73,12 @@ class AddCoordinationFragment: Fragment() {
                     val h = Integer.parseInt(binding.editTextAddH.getString())
                     val q = Integer.parseInt(binding.editTextAddQ.getString())
                     lifecycleScope.launch {
-                        adminViewModel.createCoordination(h = h, q = q)
+                        if (requireContext().isOnline()){
+                            adminViewModel.createCoordination(h = h, q = q)
+                        } else {
+                            showToast(getString(R.string.check_network_connection))
+                        }
+
                     }
                 }
             } else {

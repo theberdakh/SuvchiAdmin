@@ -10,6 +10,7 @@ import androidx.paging.LoadState
 import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.Sensor
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentFarmerSensorsBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.ui.all_sensors.SensorsPagingAdapter
@@ -50,9 +51,14 @@ class FarmerSensorsFragment(val farmer: Farmer) : Fragment(), SensorsPagingAdapt
 
     private fun initObservers() {
 
-        adminViewModel.getAllSensorsByFarmerId(farmer.id).onEach{
-            allSensorsAdapter.submitData(it)
-        }.launchIn(lifecycleScope)
+        if (requireContext().isOnline()){
+            adminViewModel.getAllSensorsByFarmerId(farmer.id).onEach{
+                allSensorsAdapter.submitData(it)
+            }.launchIn(lifecycleScope)
+        } else {
+            showToast(getString(R.string.check_network_connection))
+        }
+
 
 
         lifecycleScope.launch {

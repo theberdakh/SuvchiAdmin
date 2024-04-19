@@ -16,6 +16,7 @@ import coil.transform.RoundedCornersTransformation
 import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.CreateFarmerRequestBody
 import com.theberdakh.suvchiadmin.data.remote.regions.models.Region
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentAddFarmerBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.utils.getString
@@ -137,7 +138,12 @@ class AddFarmerFragment : Fragment() {
 
     private fun postFarmer(farmer: CreateFarmerRequestBody) {
         lifecycleScope.launch {
-            adminViewModel.createFarmer(farmer)
+            if (requireContext().isOnline()){
+                adminViewModel.createFarmer(farmer)
+            } else {
+                showToast(getString(R.string.check_network_connection))
+            }
+
         }
     }
 

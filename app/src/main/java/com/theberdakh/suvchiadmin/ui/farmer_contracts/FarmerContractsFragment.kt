@@ -13,6 +13,7 @@ import com.theberdakh.suvchiadmin.R
 import com.theberdakh.suvchiadmin.data.remote.contract.models.Contract
 import com.theberdakh.suvchiadmin.data.remote.contract.models.ContractByFarmerId
 import com.theberdakh.suvchiadmin.data.remote.farmers.models.Farmer
+import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentContractsBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.ui.add_contract.AddContractFragment
@@ -56,7 +57,11 @@ class FarmerContractsFragment(val farmer: Farmer) : Fragment(),
     private fun initObservers() {
 
         adminViewModel.getAllContractsByFarmerId(farmer.id).onEach {
-            contractsByFarmerIdPagingAdapter.submitData(it)
+            if (requireContext().isOnline()){
+                contractsByFarmerIdPagingAdapter.submitData(it)
+            } else {
+                showToast(getString(R.string.check_network_connection))
+            }
         }.launchIn(lifecycleScope)
         lifecycleScope.launch {
 
