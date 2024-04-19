@@ -189,6 +189,7 @@ class AddFarmerFragment : Fragment() {
             binding.editTextAddPhoneNumber.shakeIf { phoneNumber -> phoneNumber.length != 9 }
         val usernameIsValid = binding.editTextAddUsername.shakeIfEmptyOrBlank()
         val passwordIsValid = binding.editTextAddPassword.shakeIf {
+            if(it.length < 10) showToast("Belgiler sanı 10 nan kem bolmawı kerek")
             it.isEmptyOrBlank() || it.length <10
         }
         val kIsValid = binding.editTextAddK.shakeIf { K ->
