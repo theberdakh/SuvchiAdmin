@@ -5,9 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.theberdakh.suvchiadmin.data.local.SharedPreferences
-import com.theberdakh.suvchiadmin.utils.checkHostResolution
-import com.theberdakh.suvchiadmin.utils.setOnlyLightMode
-import com.theberdakh.suvchiadmin.utils.showToast
+import com.theberdakh.suvchiadmin.data.remote.utils.checkHostResolution
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {

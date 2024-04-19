@@ -11,6 +11,7 @@ import com.theberdakh.suvchiadmin.data.remote.regions.RegionsApi
 import com.theberdakh.suvchiadmin.data.remote.sensors.SensorsApi
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.AttachSensorRequestBody
 import com.theberdakh.suvchiadmin.data.remote.sensors.models.CreateSensorRequestBody
+import com.theberdakh.suvchiadmin.data.remote.utils.convertToMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -24,7 +25,7 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
         if (response.isSuccessful) {
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {
-            emit(ResultData.Message(response.message()))
+            emit(ResultData.Message(response.code().convertToMessage()))
         }
     }.catch {
         emit(ResultData.Error(it))
@@ -35,7 +36,7 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
         if (response.isSuccessful) {
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {
-            emit(ResultData.Message(response.message()))
+            emit(ResultData.Message(response.code().convertToMessage()))
         }
     }.catch {
         emit(ResultData.Error(it))
@@ -46,7 +47,7 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
         if (response.isSuccessful) {
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {
-            emit(ResultData.Message(response.message()))
+            emit(ResultData.Message(response.code().convertToMessage()))
         }
     }.catch {
         emit(ResultData.Error(it))
@@ -59,7 +60,7 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
         if (response.isSuccessful) {
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {
-            emit(ResultData.Message(response.message()))
+            emit(ResultData.Message(response.code().convertToMessage()))
         }
     }.catch {
         emit(ResultData.Error(it))
@@ -70,7 +71,7 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
         if (response.isSuccessful) {
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {
-            emit(ResultData.Message(response.message()))
+            emit(ResultData.Message(response.code().convertToMessage()))
         }
     }.catch {
         emit(ResultData.Error(it))
@@ -81,7 +82,7 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
         if (response.isSuccessful){
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {
-            emit(ResultData.Message(response.code().toString()))
+            emit(ResultData.Message(response.code().convertToMessage()))
         }
     }.catch {
         emit(ResultData.Error(it))
@@ -92,7 +93,7 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
         if (response.isSuccessful){
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {
-            emit(ResultData.Message(response.code().toString()))
+            emit(ResultData.Message(response.code().convertToMessage()))
         }
     }.catch {
         emit(ResultData.Error(it))
@@ -103,7 +104,7 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
         if (response.isSuccessful){
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {
-            emit(ResultData.Message(response.code().toString()))
+            emit(ResultData.Message(response.code().convertToMessage()))
         }
     }.catch {
         emit(ResultData.Error(it))
@@ -114,7 +115,7 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
         if (response.isSuccessful){
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {
-            emit(ResultData.Message(response.code().toString()))
+            emit(ResultData.Message(response.code().convertToMessage()))
         }
     }.catch {
         emit(ResultData.Error(it))
@@ -125,7 +126,7 @@ class AdminRepository(val regionsApi: RegionsApi, val farmersApi: FarmersApi, va
         if (response.isSuccessful){
             emit(ResultData.Success(checkNotNull(response.body())))
         } else {
-            emit(ResultData.Message(response.code().toString()))
+            emit(ResultData.Message(response.code().convertToMessage()))
         }
     }.catch {
         emit(ResultData.Error(it))
