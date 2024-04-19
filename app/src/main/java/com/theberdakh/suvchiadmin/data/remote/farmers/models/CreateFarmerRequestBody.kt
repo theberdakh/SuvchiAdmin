@@ -23,5 +23,6 @@ data class CreateFarmerRequestBody(
     val longitude: String,
     val passport: String,
     val gender: String,
-    val regionId: Int
+    val regionId: Int,
+    val K: Int
 )

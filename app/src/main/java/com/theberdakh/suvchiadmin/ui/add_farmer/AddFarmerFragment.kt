@@ -20,6 +20,7 @@ import com.theberdakh.suvchiadmin.data.remote.utils.isOnline
 import com.theberdakh.suvchiadmin.databinding.FragmentAddFarmerBinding
 import com.theberdakh.suvchiadmin.presentation.AdminViewModel
 import com.theberdakh.suvchiadmin.utils.getString
+import com.theberdakh.suvchiadmin.utils.isEmptyOrBlank
 import com.theberdakh.suvchiadmin.utils.shakeIf
 import com.theberdakh.suvchiadmin.utils.shakeIfEmptyOrBlank
 import com.theberdakh.suvchiadmin.utils.showSnackbar
@@ -170,7 +171,8 @@ class AddFarmerFragment : Fragment() {
             lastName = binding.editTextAddLastName.getString(),
             password = binding.editTextAddPassword.getString(),
             username = binding.editTextAddUsername.getString(),
-            passport = binding.editTextAddPassportSeries.getString())
+            passport = binding.editTextAddPassportSeries.getString(),
+            K = Integer.parseInt(binding.editTextAddK.getString()))
     }
 
     private fun fieldsAreValid(): Boolean {
@@ -186,11 +188,17 @@ class AddFarmerFragment : Fragment() {
         val passportPhoneNumberIsValid =
             binding.editTextAddPhoneNumber.shakeIf { phoneNumber -> phoneNumber.length != 9 }
         val usernameIsValid = binding.editTextAddUsername.shakeIfEmptyOrBlank()
-        val passwordIsValid = binding.editTextAddPassword.shakeIfEmptyOrBlank()
+        val passwordIsValid = binding.editTextAddPassword.shakeIf {
+            it.isEmptyOrBlank() || it.length <10
+        }
+        val kIsValid = binding.editTextAddK.shakeIf { K ->
+            val parsedInt = K.toIntOrNull()
+            parsedInt==null
+        }
 
 
         return nameIsValid && lastNameIsValid && middleNameIsValid && regionIsValid && genderIsValid && passportSeriesIsValid && passportPhoneNumberIsValid &&
-                usernameIsValid && passwordIsValid
+                usernameIsValid && passwordIsValid && kIsValid
 
 
     }

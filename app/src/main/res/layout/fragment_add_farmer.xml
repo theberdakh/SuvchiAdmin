@@ -228,7 +228,6 @@
                 android:layout_marginTop="8dp"
                 app:endIconMode="password_toggle"
                 style="?textInputOutlinedStyle"
-                android:layout_marginBottom="24dp"
                 android:hint="@string/password">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -236,6 +235,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="text"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_add_k"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:endIconMode="password_toggle"
+                style="?textInputOutlinedStyle"
+                android:layout_marginBottom="24dp"
+                android:hint="@string/k">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_add_k"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

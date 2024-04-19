@@ -53,7 +53,7 @@ fun EditText.shakeIfEmptyOrBlank(): Boolean {
 
 fun EditText.shakeIf(validator: (String) -> Boolean): Boolean {
     val text = this.getString()
-    val isValid: Boolean = if (validator.invoke(text)) {
+    val isValid: Boolean = if (validator.invoke(text) && text.isNotEmptyOrBlank()) {
         this.shake()
         false
     } else {
