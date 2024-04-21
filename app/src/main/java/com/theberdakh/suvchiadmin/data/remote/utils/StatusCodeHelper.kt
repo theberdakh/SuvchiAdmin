@@ -7,6 +7,7 @@ fun Int.convertToMessage(): String {
         422 -> "Sorawda nadurıs maǵlıwmatlar bar"
         201 -> "Maǵlıwmat jetiskenlikli jaratıldı"
         500 -> "Serverdegi qátelik"
+        409 -> "Duplikat maǵlıwmat"
         else -> "Qátelik kodı: $this"
     }
 }

@@ -91,7 +91,7 @@ class FarmerProfileFragment(val farmer: Farmer) : Fragment(), ContractsPagingAda
         TabLayoutMediator(binding.tabLayout, binding.viewPager){ tab, position ->
             when(position){
                 0 -> {
-                    tab.text = "Dashboard"
+                    tab.text = getString(R.string.dashboard)
                 }
                 1 -> {
                     tab.text = getString(R.string.contracts)

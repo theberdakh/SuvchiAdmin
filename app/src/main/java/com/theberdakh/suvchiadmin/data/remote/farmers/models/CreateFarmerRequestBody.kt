@@ -24,5 +24,8 @@ data class CreateFarmerRequestBody(
     val passport: String,
     val gender: String,
     val regionId: Int,
-    val K: Int
+    val height: Int,
+    val alpha: Int,
+    val beta: Int,
+    val bottom_length: Int
 )

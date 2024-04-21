@@ -172,7 +172,11 @@ class AddFarmerFragment : Fragment() {
             password = binding.editTextAddPassword.getString(),
             username = binding.editTextAddUsername.getString(),
             passport = binding.editTextAddPassportSeries.getString(),
-            K = Integer.parseInt(binding.editTextAddK.getString()))
+            height = Integer.parseInt(binding.editTextAddHeight.getString()),
+            alpha = Integer.parseInt(binding.editTextAddAlpha.getString()),
+            beta =  Integer.parseInt(binding.editTextAddAlpha.getString()),
+            bottom_length = Integer.parseInt(binding.editTextAddBottomLength.getString())
+            )
     }
 
     private fun fieldsAreValid(): Boolean {
@@ -192,14 +196,26 @@ class AddFarmerFragment : Fragment() {
             if(it.length < 10) showToast("Belgiler sanı 10 nan kem bolmawı kerek")
             it.isEmptyOrBlank() || it.length <10
         }
-        val kIsValid = binding.editTextAddK.shakeIf { K ->
-            val parsedInt = K.toIntOrNull()
+        val heightIsValid = binding.editTextAddHeight.shakeIf { height ->
+            val parsedInt = height.toIntOrNull()
             parsedInt==null
+        }
+        val alphaIsValid = binding.editTextAddAlpha.shakeIf { alpha ->
+            val parsedInt = alpha.toIntOrNull()
+            parsedInt==null
+        }
+        val betaIsValid = binding.editTextAddBeta.shakeIf { beta ->
+            val parsedInt = beta.toIntOrNull()
+            parsedInt==null
+        }
+        val bottomLengthValid = binding.editTextAddBottomLength.shakeIf { bottomLength ->
+            val parsedInt = bottomLength.toIntOrNull()
+            parsedInt == null
         }
 
 
         return nameIsValid && lastNameIsValid && middleNameIsValid && regionIsValid && genderIsValid && passportSeriesIsValid && passportPhoneNumberIsValid &&
-                usernameIsValid && passwordIsValid && kIsValid
+                usernameIsValid && passwordIsValid && heightIsValid && alphaIsValid && betaIsValid && bottomLengthValid
 
 
     }
